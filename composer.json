@@ -2,7 +2,6 @@
     "name": "patrickquijano/cakephp3-recaptcha",
     "description": "Recaptcha plugin for CakePHP 3",
     "type": "cakephp-plugin",
-    "minimum-stability": "dev",
     "license": "MIT",
     "require": {
         "cakephp/cakephp": "^3.5"
