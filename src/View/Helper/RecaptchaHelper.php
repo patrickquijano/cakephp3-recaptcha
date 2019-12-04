@@ -15,13 +15,11 @@ class RecaptchaHelper extends Helper {
      * @var array
      */
     protected $_defaultConfig = [
-        'siteKey' => '',
         'theme' => '',
         'size' => '',
         'script' => [
             'url' => 'https://www.google.com/recaptcha/api.js',
         ],
-        'always' => false,
     ];
 
     /**
@@ -45,10 +43,7 @@ class RecaptchaHelper extends Helper {
      * @return string
      */
     public function widget() {
-        if (Configure::read('debug') && !$this->getConfig('always')) {
-            return null;
-        }
-        $siteKey = $this->getConfig('siteKey');
+        $siteKey = Configure::read('Recaptcha.siteKey');
         if (empty($siteKey)) {
             throw new Exception('Recaptcha Site Key not configured.');
         }
