@@ -22,7 +22,7 @@ class RecaptchaComponent extends Component {
     ];
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function verify() {
         $request = $this->getController()->request;
@@ -39,12 +39,13 @@ class RecaptchaComponent extends Component {
         $jsonResponse = json_decode($response->getStringBody(), true);
         if (!$jsonResponse['success']) {
             $this->_setErrors($jsonResponse['error-codes']);
+            return false;
         }
-        return $jsonResponse['success'];
+        return true;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasErrors() {
         return !empty($this->_errors);
@@ -81,7 +82,7 @@ class RecaptchaComponent extends Component {
             case 'invalid-input-secret':
                 return __('The secret parameter is invalid or malformed.');
             case 'missing-input-response':
-                return __('	The response parameter is missing.');
+                return __('The response parameter is missing.');
             case 'invalid-input-response':
                 return __('The response parameter is invalid or malformed.');
             case 'bad-request':
