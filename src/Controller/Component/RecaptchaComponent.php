@@ -18,28 +18,23 @@ class RecaptchaComponent extends Component {
      * @var array
      */
     protected $_defaultConfig = [
-        'secretKey' => '',
         'apiUrl' => 'https://www.google.com/recaptcha/api/siteverify',
-        'always' => false,
     ];
 
     /**
      * @return boolean
      */
     public function verify() {
-        if (Configure::read('debug') && !$this->getConfig('always')) {
-            return true;
-        }
-        $controller = $this->_registry->getController();
+        $request = $this->getController()->request;
         $client = new Client();
-        $secretKey = $this->getConfig('secretKey');
+        $secretKey = Configure::read('Recaptcha.secretKey');
         if (empty($secretKey)) {
             throw new Exception('Recaptcha Secret Key not configured.');
         }
         $response = $client->post($this->getConfig('apiUrl'), [
             'secret' => $secretKey,
-            'response' => $controller->request->getData('g-recaptcha-response'),
-            'remoteip' => $controller->request->clientIp(),
+            'response' => $request->getData('g-recaptcha-response'),
+            'remoteip' => $request->clientIp(),
         ]);
         $jsonResponse = json_decode($response->getStringBody(), true);
         if (!$jsonResponse['success']) {
